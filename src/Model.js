@@ -11,7 +11,20 @@ export default class Model {
     constructor(collectionName, archetype) {
         const collection = Fireshot().firebase.firestore().collection(collectionName)
         
+        this.children = []
         this.archetype = archetype
         this.collection = collection
+    }
+
+    $setParent (parent) {
+        this.extends = true
+        this.parent = parent
+    }
+
+    extend(collectionName, childArchetype) {
+        const child = new Model(collectionName, childArchetype)
+        child.$setParent(this)
+        this.children.push(child)
+        return child
     }
 }
