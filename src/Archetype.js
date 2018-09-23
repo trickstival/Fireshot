@@ -1,3 +1,6 @@
+// going to be used when we discover how to deploy the firestore rules
+// dinamically
+
 export class Rule {
     /**
      * 
@@ -11,7 +14,7 @@ export class Rule {
 }
 
 /**
- * An archetype respresent rules for one or more models
+ * An archetype respresents rules for one or more models
  */
 export class Archetype {
 	constructor (rules) {

@@ -1,6 +1,6 @@
 import Model from './Model'
 import Archetype from './Archetype'
-import { NotInstantiated } from './errors/FIreshotErrors';
+import { NotInstantiated } from './errors/FireshotErrors';
 
 const required = () => {
 	if (!Fireshot.ready)
@@ -17,13 +17,18 @@ export default function Fireshot (
 	if (!Fireshot.ready) {
 		Fireshot.firebase = firebase
 		Fireshot.functions = functions
+		Fireshot.boundFunctions = {}
 		Fireshot.ready = true
 	}	
 	return Fireshot
 }
 
+Fireshot.$subscribe = (functionName, cloudFunction) => {
+	Fireshot.boundFunctions[functionName] = cloudFunction
+}
+
 Fireshot.model = (archetype, collectionName) => {
-	return new Model(archetype, collection)
+	return new Model(archetype, collectionName)
 }
 
 Fireshot.archetype = () => {
