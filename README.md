@@ -8,6 +8,7 @@ just send me an e-mail: trick_stival@hotmail.com or open a PR!
 ## Example of usage
 
 ```js
+// functions/index.js
 const functions = require('firebase-functions')
 const admin = require('firebase-admin')
 const Fireshot = require('./fireshot/index').default
