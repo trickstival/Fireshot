@@ -1,6 +1,6 @@
 import Model from './Model'
 import Archetype from './Archetype'
-import { NotInstantiated } from './errors/FireshotErrors';
+import { NotInstantiated } from './errors/FireshotErrors'
 
 const required = () => {
 	if (!Fireshot.ready)
@@ -21,6 +21,13 @@ export default function Fireshot (
 		Fireshot.ready = true
 	}	
 	return Fireshot
+}
+/**
+ * 
+ * @param { String } collection 
+ */
+Fireshot.forEachDocumentOf = (collectionName) => {
+	return Fireshot().functions.firestore.document(`${collectionName}/{key}`)
 }
 
 Fireshot.$subscribe = (functionName, cloudFunction) => {

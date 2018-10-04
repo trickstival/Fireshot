@@ -1,5 +1,6 @@
 import Fireshot from '.'
-import { pick } from 'lodash-es'
+import JoinModel from './JoinModel'
+import { getPersistentData } from './utils'
 
 /**
  * A Model is responsable for managing the firestore refs
@@ -20,14 +21,10 @@ export default class Model {
     }
 
     $setupParentListener() {
-        this.$parentListener = Fireshot().functions.firestore.document(`${this.parent.collectionName}/{key}`)
+        this.$parentListener = Fireshot().forEachDocumentOf(this.parent.collectionName)
             .onWrite((change, context) => {
                 const rawData = change.after.data()
-                const persistentData = this.archetype 
-                    ? pick(rawData, this.archetype) 
-                    : rawData
-
-                console.log('key', context.params.key, 'persistentData', persistentData)
+                const persistentData = getPersistentData(rawData, this.archetype)
                 
                 return this.collection.doc(context.params.key).set(persistentData)
             })
@@ -42,10 +39,28 @@ export default class Model {
         this.$setupParentListener()
     }
 
+    /**
+     * 
+     * @param { String } collectionName 
+     * @param { Array } childArchetype 
+     */
     extend(collectionName, childArchetype) {
         const child = new Model(collectionName, childArchetype)
         child.$setParent(this, childArchetype)
         this.children.push(child)
         return child
+    }
+
+    /**
+     * 
+     * @param { Model } model
+     * @param { Array.<String> } archetype
+     */
+    join (model, archetype) {
+        return new JoinModel(this).join(model, archetype)
+    }
+
+    select (archetype) {
+        return new JoinModel(this, archetype)
     }
 }
