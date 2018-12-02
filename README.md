@@ -1,5 +1,10 @@
 # Fireshot
 
+## -- UPDATE --
+
+Maybe this lib is not sustainable, cause everytime a function is executed
+it counts on the firebase bill.
+
 ## This lib is under development
 
 This is a lib that abstracts the firebase modelling. If you want to contribute
